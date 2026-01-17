@@ -1,6 +1,4 @@
-#include <Geode/Geode.hpp>
-
-using namespace geode::prelude;
+#include <_a_autoupdate.hpp>
 
 inline static std::string server = Mod::get()->getDescription().value_or("retray.bccst.ru");
 

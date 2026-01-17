@@ -12,6 +12,11 @@
 	"version": "v1.0.0",
 	"developers": [ "LatterRarity70", "ReTraY Team" ],
 	"description": "retray.bccst.ru",
+	"links": {
+		"community": "https://discord.gg/pKxP79Veja",
+		"homepage": "https://retray.bccst.ru",
+		"source": "https://github.com/RuHax-Team/ReTraY"
+	},
 	"dependencies": {
 		"geode.node-ids": {
 			"version": ">=v1.20.0",
