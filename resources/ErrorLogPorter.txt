@@ -1,0 +1,7 @@
+Error logged with GJ_LaunchSheet-uhd.plist:
+Traceback (most recent call last):
+  File "libs\Porter.py", line 758, in task
+    plistData["metadata"]["realTextureFileName"] = plistData["metadata"][
+KeyError: 'realTextureFileName'
+
+('gj_worldLogo_001.png', {'aliases': [], 'spriteOffset': '{1.75,-1.75}', 'spriteSize': '{133,38}', 'spriteSourceSize': '{136,42}', 'textureRect': '{{0,186},{133,38}}', 'textureRotated': False})
