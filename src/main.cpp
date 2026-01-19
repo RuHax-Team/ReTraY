@@ -389,12 +389,13 @@ class $modify(MenuLayerExt, MenuLayer) {
 
 	
 	static cocos2d::CCScene* scene(bool isVideoOptionsOpen) {
+		auto scene = MenuLayer::scene(isVideoOptionsOpen);
 		if (!isVideoOptionsOpen) {
 
-
+			
 
 			static int notJustLaunched = false;
-			if (notJustLaunched++) return MenuLayer::scene(isVideoOptionsOpen);
+			if (notJustLaunched++) return scene;
 			FMODAudioEngine::get()->playEffect("achievement_01.ogg");
 
 			auto issues = std::vector<std::string>();
@@ -403,7 +404,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 					issues.push_back(dep.id);
 				}
 			};
-			if (!issues.size()) return MenuLayer::scene(isVideoOptionsOpen);
+			if (!issues.size()) return scene;
 
 			GameManager::get()->fadeInMusic(".aw");
 
@@ -439,8 +440,9 @@ class $modify(MenuLayerExt, MenuLayer) {
 			popup->setScale(0.575);
 		
 			addSideArt(popup);
-			Ref sc = CCScene::create();
-			sc->addChild(popup, -INT_MAX, "popup"_h);
+			Ref sc = scene;
+			sc->getChildByType<MenuLayer>(0)->setVisible(0);
+			sc->addChild(popup, 0, "popup"_h);
 			sc->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(
 				CCDelayTime::create(.01f), CallFuncExt::create(
 					[sc] {
@@ -459,7 +461,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 			CCScheduler::get()->setTimeScale(0.25f);
 			return sc;
 		} //!isVideoOptionsOpen
-		return MenuLayer::scene(isVideoOptionsOpen);
+		return scene;
 
 	};
 	
