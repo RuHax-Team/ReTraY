@@ -435,11 +435,12 @@ class $modify(MenuLayerExt, MenuLayer) {
 
 				, Anchor::Center, {}, !"NO LAYOUT"
 			);
-
+			//popup->ignoreAnchorPointForPosition(false);
+			popup->setScale(0.575);
 		
 			addSideArt(popup);
 			Ref sc = CCScene::create();
-			sc->addChild(popup, 1, "popup"_h);
+			sc->addChild(popup, -1, "popup"_h);
 			sc->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(
 				CCDelayTime::create(.01f), CallFuncExt::create(
 					[sc] {
