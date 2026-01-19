@@ -68,7 +68,7 @@ class $modify(LoadingLayerExt, LoadingLayer) {
 			loader->setPosition(a->getContentSize() / 2);
 			loader->loadFromUrl("https://raw.githubusercontent.com/RuHax-Team/ReTraY/refs/heads/master/frame01.png");
 			
-			
+			//lol
 			CCScheduler::get()->setTimeScale(0.f);
 			loader->setLoadCallback(
 				[](Result<> res) {
