@@ -387,7 +387,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 	}
 
 
-	
+	/*
 	static cocos2d::CCScene* scene(bool isVideoOptionsOpen) {
 		auto scene = MenuLayer::scene(isVideoOptionsOpen);
 		if (!isVideoOptionsOpen) {
@@ -465,7 +465,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 
 	};
 	
-
+	*/
 
 
 };
