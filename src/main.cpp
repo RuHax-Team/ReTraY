@@ -440,7 +440,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 		
 			addSideArt(popup);
 			Ref sc = CCScene::create();
-			sc->addChild(popup, -1, "popup"_h);
+			sc->addChild(popup, -INT_MAX, "popup"_h);
 			sc->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(
 				CCDelayTime::create(.01f), CallFuncExt::create(
 					[sc] {
