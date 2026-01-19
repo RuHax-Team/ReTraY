@@ -430,19 +430,19 @@ class $modify(MenuLayerExt, MenuLayer) {
 			popup->setOpacity(0);
 			if (Ref a = popup->m_mainLayer->getChildByType<CCScale9Sprite>(0))
 				a->setOpacity(0);
-			popup->addChild(geode::createLayerBG(), -1);
-			popup->addChildAtPosition(
+			popup->m_mainLayer->addChild(geode::createLayerBG(), -1);
+			popup->m_mainLayer->addChildAtPosition(
 				CCParticleSystemQuad::create("glitterEffect.plist", 0)
 
 				, Anchor::Center, {}, !"NO LAYOUT"
 			);
 			//popup->ignoreAnchorPointForPosition(false);
-			popup->setScale(0.575);
+			popup->m_mainLayer->setScale(0.575);
 		
 			addSideArt(popup);
 			Ref sc = scene;
 			sc->getChildByType<MenuLayer>(0)->setVisible(0);
-			sc->addChild(popup, 0, "popup"_h);
+			sc->addChild(popup->m_mainLayer, 0, "popup"_h);
 			sc->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(
 				CCDelayTime::create(.01f), CallFuncExt::create(
 					[sc] {
