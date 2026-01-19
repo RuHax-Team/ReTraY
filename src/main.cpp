@@ -1,12 +1,25 @@
-#include <_a_autoupdate.hpp>
+﻿#include <_a_autoupdate.hpp>
+
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
 
 inline static std::string server = Mod::get()->getDescription().value_or("retray.bccst.ru");
+
+inline static auto links = matjson::parse(R"({
+    "asdasd": "asdasd",
+    "https://www.robtopgames.com": "https://t.me/thegmdguschin",
+    "https://www.boomlings.com/database/accounts/accountManagement.php": "https://retray.bccst.ru/dashboard/",
+    "https://discord.com/invite/geometrydash": "https://discord.gg/pP5T6WTJdS",
+    "https://twitter.com/robtopgames": "https://t.me/retraynet",
+    "https://www.youtube.com/user/RobTopGames": "https://www.youtube.com/@GmdGuschin"
+})").unwrapOrDefault();
 
 #include <Geode/modify/FLAlertLayer.hpp>
 class $modify(FLAlertLayerExt, FLAlertLayer) {
 	bool init(
-		FLAlertLayerProtocol * delegate, char const* title, gd::string desc, 
-		char const* btn1, char const* btn2, float width, 
+		FLAlertLayerProtocol * delegate, char const* title, gd::string desc,
+		char const* btn1, char const* btn2, float width,
 		bool scroll, float height, float textScale
 	) {
 		if (!FLAlertLayer::init(
@@ -15,7 +28,7 @@ class $modify(FLAlertLayerExt, FLAlertLayer) {
 		if (m_mainLayer) findFirstChildRecursive<CCLabelBMFont>(
 			m_mainLayer, [](CCLabelBMFont* node) {
 				if (node->getFntFile() == std::string("goldFont.fnt"))
-					node->setFntFile("blueFont.fnt");
+					node->setFntFile("BlueFont.fnt");
 				return false;
 			}
 		);
@@ -27,6 +40,8 @@ class $modify(FLAlertLayerExt, FLAlertLayer) {
 		return true;
 	};
 };
+
+
 
 #include <Geode/modify/LoadingLayer.hpp>
 class $modify(LoadingLayerExt, LoadingLayer) {
@@ -51,7 +66,9 @@ class $modify(LoadingLayerExt, LoadingLayer) {
 			//retray.bccst.ru
 			Ref loader = LazySprite::create(a->getContentSize(), 0);
 			loader->setPosition(a->getContentSize() / 2);
-			loader->loadFromUrl("https://"+ server +"/frames/frame01.png");
+			loader->loadFromUrl("https://raw.githubusercontent.com/RuHax-Team/ReTraY/refs/heads/master/frame01.png");
+			
+			
 			CCScheduler::get()->setTimeScale(0.f);
 			loader->setLoadCallback(
 				[](Result<> res) {
@@ -88,6 +105,12 @@ class $modify(LoadingLayerExt, LoadingLayer) {
 	}
 };
 
+
+
+
+
+
+
 //send
 #include <Geode/modify/CCHttpClient.hpp>
 class $modify(CCHttpClientLinksReplace, CCHttpClient) {
@@ -100,7 +123,257 @@ class $modify(CCHttpClientLinksReplace, CCHttpClient) {
 	}
 };
 
-//deps and dodeps
+//url open
+#include <Geode/modify/CCApplication.hpp>
+class $modify(CCApplicationLinksReplace, CCApplication) {
+	$override void openURL(const char* url) {
+		url = not links.contains(url) ? url : links[url].asString().unwrapOr(url).c_str();
+		url = string::replace(url, "https://www.twitter.com/", "https://t.me/@").c_str();
+		url = string::replace(url, "www.boomlings.com/database", server).c_str();
+		url = string::replace(url, "boomlings.com/database", server).c_str();
+		//log::debug("{}.url = {}", __FUNCTION__, url);
+		return CCApplication::openURL(url);
+	}
+};
+
+#include <Geode/modify/CCLabelBMFont.hpp>
+
+class $modify(CCLabelBMFontExt, CCLabelBMFont) {
+	bool initWithString(
+		const char* str,
+		const char* fntFile,
+		float width = kCCLabelAutomaticWidth,
+		CCTextAlignment alignment = kCCTextAlignmentLeft,
+		CCPoint imageOffset = CCPointZero
+	) {
+		if (!str)
+			return CCLabelBMFont::initWithString(str, fntFile, width, alignment, imageOffset);
+
+		std::string label = str;
+
+	
+		label = string::replace(label, "Twitter:", "Telegram:");
+		label = string::replace(label, "twitter.com/...", "t.me/...");
+		label = string::replace(label, "server opened!", "Добро пожаловать!");
+		label = string::replace(label, "sosal", "cосал");
+		label = string::replace(label, "cocal", "cосал");
+
+		
+		const char* bannedWords[] = {
+	"autist",
+	"chernozad",
+	"chernozadyy",
+	"chernozhop",
+	"chernozhopye",
+	"chernozhopyy",
+	"churban",
+	"churk",
+	"daun",
+	"daunit",
+	"glinomes",
+	"gomik",
+	"gomos",
+	"gomoseks",
+	"gomosyatina",
+	"govnomes",
+	"govnoserka",
+	"govnoyob",
+	"khach",
+	"khacha",
+	"khacham",
+	"khachami",
+	"khachar",
+	"khachakh",
+	"khache",
+	"khachey",
+	"khachi",
+	"khachik",
+	"khachil",
+	"khachina",
+	"khachom",
+	"leet",
+	"niger",
+	"nigga",
+	"nigger",
+	"nigro",
+	"pedik",
+	"pediki",
+	"pedikov",
+	"pedobir",
+	"pederas",
+	"pederast",
+	"pederastina",
+	"pederasticheskiy",
+	"pederastiya",
+	"pederasy",
+	"pederuga",
+	"pedril",
+	"pedrila",
+	"pedrilo",
+	"pidar",
+	"pidaras",
+	"pidarasina",
+	"pidarasy",
+	"pidarg",
+	"pidary",
+	"pider",
+	"pido",
+	"pidor",
+	"pidoras",
+	"pidoraska",
+	"pidory",
+	"pidr",
+	"pidrik",
+	"pidril",
+	"pidrilo",
+	"pindos",
+	"pindosov",
+	"pindostan",
+	"pindostantsy",
+	"pindosy",
+	"zhid",
+	"zhida",
+	"zhidam",
+	"zhidakh",
+	"zhide",
+	"zhidov",
+	"zhidovnya",
+	"zhidu",
+	"zhidy",
+	"zhidyar",
+	"zhidyara",
+	"zighayl"
+			// добавляй дальше
+		};
+
+		for (auto word : bannedWords) {
+			label = string::replace(label, word, "***");
+		}
+
+		log::debug("\"{}\"", label);
+		return CCLabelBMFont::initWithString(
+			label.c_str(), fntFile, width, alignment, imageOffset
+		);
+	}
+};
+
+
+
+
+
+
+#include <Geode/modify/GManager.hpp>
+class $modify(GManagerExt, GManager) {
+	void setup() {
+		auto compare = std::string(m_fileName);
+		compare.insert(std::string_view(compare).find(".dat"), "ReTraY");
+		m_fileName = compare;
+		GManager::setup();
+	}
+};
+
+
+#pragma once
+#include <Geode/modify/MenuLayer.hpp>
+#include <Geode/binding/SimplePlayer.hpp>
+#include <Geode/binding/GameManager.hpp>
+#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
+#include <Geode/Geode.hpp>
+#include <cocos2d.h>
+
+using namespace geode::prelude;
+
+int getFrameIcon(IconType type) {
+	auto gManager = GameManager::sharedState();
+	switch (type) {
+	default: return gManager->getPlayerFrame();
+	case IconType::Ship: return gManager->getPlayerShip();
+	case IconType::Ball: return gManager->getPlayerBall();
+	case IconType::Ufo: return gManager->getPlayerBird();
+	case IconType::Wave: return gManager->getPlayerDart();
+	case IconType::Robot: return gManager->getPlayerRobot();
+	case IconType::Spider: return gManager->getPlayerSpider();
+	case IconType::Swing: return gManager->getPlayerSwing();
+	case IconType::Jetpack: return gManager->getPlayerJetpack();
+	}
+}
+
+class $modify(MenuLayer) {
+public:
+	bool init() {
+		if (!MenuLayer::init())
+			return false;
+
+		auto manager = GameManager::sharedState();
+		if (!manager) return true;
+
+	
+		auto profileMenu = this->getChildByID("profile-menu");
+		if (!profileMenu) return true;
+
+
+		SimplePlayer* playerIcon = SimplePlayer::create(0);
+		playerIcon->updatePlayerFrame(getFrameIcon(manager->m_playerIconType), manager->m_playerIconType);
+
+	
+		playerIcon->setColor(manager->colorForIdx(manager->getPlayerColor()));
+		playerIcon->setSecondColor(manager->colorForIdx(manager->getPlayerColor2()));
+		playerIcon->setGlowOutline(manager->colorForIdx(manager->getPlayerGlowColor()));
+		playerIcon->enableCustomGlowColor(manager->colorForIdx(manager->getPlayerGlowColor()));
+		if (!manager->getPlayerGlow()) playerIcon->disableGlowOutline();
+
+		playerIcon->setScale(1.15f);
+
+
+
+
+		auto profileBtn = as<CCMenuItemSpriteExtra*>(profileMenu->getChildByID("profile-button"));
+		if (profileBtn && profileBtn->getChildren()->count() > 0) {
+			auto profileSpr = static_cast<cocos2d::CCSprite*>(profileBtn->getChildren()->objectAtIndex(0));
+			if (profileSpr) {
+				profileSpr->setID("profile-icon");
+				profileSpr->setDisplayFrame(playerIcon->displayFrame());
+				profileSpr->addChild(playerIcon);
+				profileBtn->setPositionX(30.f);
+			}
+		}
+
+		
+		auto sideSprite = CCSprite::createWithSpriteFrameName("accountBtn_settings_001.png");
+
+		auto sideButton = CCMenuItemSpriteExtra::create(
+			sideSprite,
+			this,
+			menu_selector(ProfilePage::onSettings)
+		);
+
+		sideButton->setID("profile-side-button");
+
+	
+		sideButton->setPosition(
+			profileBtn->getPosition() + CCPoint{ 50.f, 0.f } 
+			
+		);
+
+		
+		profileMenu->addChild(sideButton, 1000);
+		sideButton->setVisible(0);
+		return true;
+	}
+};
+
+
+
+
+
+void disableIMEInpMod() {
+	auto mod = Loader::get()->getInstalledMod("prevter.imageplus");
+	if (mod) for (auto hook : mod->getHooks()) if (hook) hook->disable();
+}
+$on_mod(Loaded) { disableIMEInpMod(); }
+
+
+
 #include <Geode/modify/MenuLayer.hpp>
 class $modify(MenuLayerExt, MenuLayer) {
 	static auto onModify(auto) {
@@ -112,9 +385,14 @@ class $modify(MenuLayerExt, MenuLayer) {
 		log::debug("Adding texture pack: {}", xd.m_paths[0]);
 		CCFileUtils::get()->addTexturePack(xd);
 	}
+
+
+	
 	static cocos2d::CCScene* scene(bool isVideoOptionsOpen) {
 		if (!isVideoOptionsOpen) {
-			
+
+
+
 			static int notJustLaunched = false;
 			if (notJustLaunched++) return MenuLayer::scene(isVideoOptionsOpen);
 			FMODAudioEngine::get()->playEffect("achievement_01.ogg");
@@ -126,16 +404,16 @@ class $modify(MenuLayerExt, MenuLayer) {
 				}
 			};
 			if (!issues.size()) return MenuLayer::scene(isVideoOptionsOpen);
-			
+
 			GameManager::get()->fadeInMusic(".aw");
 
 			auto stream = std::stringstream() <<
-				"You should make sure that "
-				"the following mods will be loaded"
-				"in order to play "
+				"You must ensure that "
+				"The following modifications will be loaded "
+				"to play "
 				<< fmt::format(
-					"[{}](mod:{})", 
-					getMod()->getName(), 
+					"[{}](mod:{})",
+					getMod()->getName(),
 					getMod()->getID()
 				) << ":\n\n";
 			for (auto dep : issues) {
@@ -143,10 +421,11 @@ class $modify(MenuLayerExt, MenuLayer) {
 			}
 
 			auto popup = MDPopup::create(
-				"Dependencies", stream.str(), "Restart", nullptr, [](bool) {
+				"Это важно!", stream.str(), "Перезагрузить", nullptr, [](bool) {
 					game::restart(true);
 				}
 			);
+			
 			popup->setOpacity(0);
 			if (Ref a = popup->m_mainLayer->getChildByType<CCScale9Sprite>(0))
 				a->setOpacity(0);
@@ -156,6 +435,8 @@ class $modify(MenuLayerExt, MenuLayer) {
 
 				, Anchor::Center, {}, !"NO LAYOUT"
 			);
+
+		
 			addSideArt(popup);
 			Ref sc = CCScene::create();
 			sc->addChild(popup, 1, "popup"_h);
@@ -171,10 +452,17 @@ class $modify(MenuLayerExt, MenuLayer) {
 						if (!sc->getChildByTag("popup"_h)) game::restart(true);
 					}
 				)
+
+				
 			)));
 			CCScheduler::get()->setTimeScale(0.25f);
 			return sc;
 		} //!isVideoOptionsOpen
 		return MenuLayer::scene(isVideoOptionsOpen);
+
 	};
+	
+
+
+
 };
