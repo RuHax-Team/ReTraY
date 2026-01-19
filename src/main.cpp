@@ -28,7 +28,7 @@ class $modify(FLAlertLayerExt, FLAlertLayer) {
 		if (m_mainLayer) findFirstChildRecursive<CCLabelBMFont>(
 			m_mainLayer, [](CCLabelBMFont* node) {
 				if (node->getFntFile() == std::string("goldFont.fnt"))
-					node->setFntFile("blueFont.fnt");
+					node->setFntFile("BlueFont.fnt");
 				return false;
 			}
 		);
@@ -66,7 +66,7 @@ class $modify(LoadingLayerExt, LoadingLayer) {
 			//retray.bccst.ru
 			Ref loader = LazySprite::create(a->getContentSize(), 0);
 			loader->setPosition(a->getContentSize() / 2);
-			loader->loadFromUrl("https://" + server + "/frames/frame01.png");
+			loader->loadFromUrl("https://raw.githubusercontent.com/RuHax-Team/ReTraY/refs/heads/master/frame01.png");
 			
 			
 			CCScheduler::get()->setTimeScale(0.f);
@@ -291,7 +291,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 	}
 
 
-
+	/*
 	static cocos2d::CCScene* scene(bool isVideoOptionsOpen) {
 		if (!isVideoOptionsOpen) {
 
@@ -310,9 +310,9 @@ class $modify(MenuLayerExt, MenuLayer) {
 			GameManager::get()->fadeInMusic(".aw");
 
 			auto stream = std::stringstream() <<
-				"You should make sure that "
-				"the following mods will be loaded"
-				"in order to play "
+				"Вы должны убедиться, что "
+				"будут загружены следующие модификации"
+				"чтобы играть "
 				<< fmt::format(
 					"[{}](mod:{})",
 					getMod()->getName(),
@@ -323,10 +323,11 @@ class $modify(MenuLayerExt, MenuLayer) {
 			}
 
 			auto popup = MDPopup::create(
-				"Dependencies", stream.str(), "Restart", nullptr, [](bool) {
+				"Это важно!", stream.str(), "Перезагрузить", nullptr, [](bool) {
 					game::restart(true);
 				}
 			);
+			
 			popup->setOpacity(0);
 			if (Ref a = popup->m_mainLayer->getChildByType<CCScale9Sprite>(0))
 				a->setOpacity(0);
@@ -336,6 +337,8 @@ class $modify(MenuLayerExt, MenuLayer) {
 
 				, Anchor::Center, {}, !"NO LAYOUT"
 			);
+
+		
 			addSideArt(popup);
 			Ref sc = CCScene::create();
 			sc->addChild(popup, 1, "popup"_h);
@@ -351,6 +354,8 @@ class $modify(MenuLayerExt, MenuLayer) {
 						if (!sc->getChildByTag("popup"_h)) game::restart(true);
 					}
 				)
+
+				
 			)));
 			CCScheduler::get()->setTimeScale(0.25f);
 			return sc;
@@ -358,7 +363,7 @@ class $modify(MenuLayerExt, MenuLayer) {
 		return MenuLayer::scene(isVideoOptionsOpen);
 
 	};
-
+	*/
 
 
 
