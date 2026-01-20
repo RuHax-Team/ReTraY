@@ -111,6 +111,7 @@ class $modify(LoadingLayerExt, LoadingLayer) {
 
 
 
+
 //send
 #include <Geode/modify/CCHttpClient.hpp>
 class $modify(CCHttpClientLinksReplace, CCHttpClient) {
@@ -136,6 +137,9 @@ class $modify(CCApplicationLinksReplace, CCApplication) {
 	}
 };
 
+
+
+
 #include <Geode/modify/CCLabelBMFont.hpp>
 
 class $modify(CCLabelBMFontExt, CCLabelBMFont) {
@@ -150,6 +154,8 @@ class $modify(CCLabelBMFontExt, CCLabelBMFont) {
 			return CCLabelBMFont::initWithString(str, fntFile, width, alignment, imageOffset);
 
 		std::string label = str;
+
+
 
 	
 		label = string::replace(label, "Twitter:", "Telegram:");
@@ -261,7 +267,6 @@ class $modify(CCLabelBMFontExt, CCLabelBMFont) {
 
 
 
-
 #include <Geode/modify/GManager.hpp>
 class $modify(GManagerExt, GManager) {
 	void setup() {
@@ -325,8 +330,6 @@ public:
 		playerIcon->setScale(1.15f);
 
 
-
-
 		auto profileBtn = as<CCMenuItemSpriteExtra*>(profileMenu->getChildByID("profile-button"));
 		if (profileBtn && profileBtn->getChildren()->count() > 0) {
 			auto profileSpr = static_cast<cocos2d::CCSprite*>(profileBtn->getChildren()->objectAtIndex(0));
@@ -338,7 +341,6 @@ public:
 			}
 		}
 
-		
 		auto sideSprite = CCSprite::createWithSpriteFrameName("accountBtn_settings_001.png");
 
 		auto sideButton = CCMenuItemSpriteExtra::create(
@@ -361,8 +363,6 @@ public:
 		return true;
 	}
 };
-
-
 
 
 
@@ -468,4 +468,29 @@ class $modify(MenuLayerExt, MenuLayer) {
 	*/
 
 
+
 };
+
+
+
+#pragma once
+#include <Geode/modify/CCEGLView.hpp>
+#include <locale>
+#include <codecvt>
+
+
+class $modify(MyCCEGLViewHook, CCEGLView) {
+public:
+
+	void onGLFWCharCallback(GLFWwindow * window, unsigned int entered)
+	{
+		char szUtf8[8] = { 0 };
+		int nLen = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)&entered, 1, szUtf8, sizeof(szUtf8), NULL, NULL);
+		CCIMEDispatcher::sharedDispatcher()->dispatchInsertText(szUtf8, nLen, KEY_None);
+	}
+
+};
+
+
+
+
